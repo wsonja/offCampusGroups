@@ -1,19 +1,24 @@
-import { useState } from "react";
-import "./App.css";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import { GoogleLogin } from '@react-oauth/google';
 
 
 function App() {
-    const [count, setCount] = useState(0);
-
-    return (
-        <>
-            <div className='card'>
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-            </div>
-        </>
-    );
+    const responseMessage = (response) => {
+        console.log(response);
+    };
+    const errorMessage = (error) => {
+        console.log(error);
+    };
+  return (
+    <div>
+            <h2>React Google Login</h2>
+            <br />
+            <br />
+            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+    </div>
+  );
 }
 
 export default App;
