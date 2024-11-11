@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppContext } from './AppContext';
 import { getDoc, doc, Timestamp, updateDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 interface Event {
@@ -19,6 +20,7 @@ const EventDetails: React.FC = () => {
     const { eventId } = useParams<{ eventId: string }>(); // Get eventId from URL
     const { eventsCollectionRef, profileCt } = useAppContext();
     const [event, setEvent] = useState<Event | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
       const fetchEvent = async () => {
@@ -85,6 +87,8 @@ const EventDetails: React.FC = () => {
         {!isUserAttending ? (
         <button onClick={updateAttendees}>join event!</button>
       ): <h4>already joined event!</h4>}
+
+        <button onClick={() => navigate('/')}>Back to Main Page</button>
 
       </div>
     );

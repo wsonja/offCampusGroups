@@ -11,13 +11,12 @@ import { useNavigate } from 'react-router-dom';
 function App() {
     const { usersCollectionRef, eventsCollectionRef, profileCt, setProfileCt } = useAppContext();
     const [ user, setUser ] = useState([]);
-    const [ profile, setProfile ] = useState([]);
+    const [ profile, setProfile ] = useState(null);
     const [users, setUsers] = useState<any[]>([]);
     const [events, setEvents] = useState<any[]>([]);
     const navigate = useNavigate();
 
     const handleEventClick = (eventId: string) => {
-        // Navigate to EventDetails with eventId as a URL parameter
         navigate(`/events/${eventId}`);
     };
 
@@ -26,86 +25,76 @@ function App() {
         onError: (error) => console.log('Login Failed:', error)
     });
 
-    useEffect(
-        () => {
-            if (user) {
-                axios
-                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                        headers: {
-                            Authorization: `Bearer ${user.access_token}`,
-                            Accept: 'application/json'
-                        }
-                    })
-                    .then((res) => {
-                        setProfile(res.data);
-                    })
-                    .catch((err) => console.log(err));
-            }
-
-            const getUsers = async() => {
-                const data = await getDocs(usersCollectionRef);
-                console.log(data);
-                setUsers(data.docs.map((doc)=>({...doc.data(), id: doc.id})));
-            };
-            getUsers();
-            
-            const getEvents = async() => {
-                const data = await getDocs(eventsCollectionRef);
-                console.log(data);
-                setEvents(data.docs.map((doc)=>({...doc.data(), id: doc.id})));
-            };
-            getEvents();
-            
-            if (profile){
-                setProfileCt({
-                    name: profile.name,
-                    email: profile.email,
-                    bio: users.find((user) => user.email === profile.email)?.bio, // Set bio and url to empty strings if they come from another source
-                    url: profile.picture // Assuming profile picture URL is stored here
-                }); // Set the profile in the context
-            }
-        },
-        [user, usersCollectionRef, eventsCollectionRef, profile, setProfileCt]
-    );
+    useEffect(() => {
+        if (user && user.access_token) {
+            axios
+                .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                    headers: {
+                        Authorization: `Bearer ${user.access_token}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then((res) => {
+                    setProfile(res.data);
+                })
+                .catch((err) => console.log(err));
+        }
+    }, [user]);
+    
+    useEffect(() => {
+        const getUsers = async () => {
+            const data = await getDocs(usersCollectionRef);
+            setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        };
+        getUsers();
+    
+        const getEvents = async () => {
+            const data = await getDocs(eventsCollectionRef);
+            setEvents(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        };
+        getEvents();
+    }, [usersCollectionRef, eventsCollectionRef]);
+    
+    useEffect(() => {
+        if (profile) {
+            setProfileCt({
+                name: profile.name,
+                email: profile.email,
+                bio: users.find((user) => user.email === profile.email)?.bio || '',
+                url: profile.picture || ''
+            });
+        }
+    }, [profile, users, setProfileCt]);
+    
 
     // log out function to log the user out of google and set the profile array to null
     const logOut = () => {
         googleLogout();
         setProfile(null);
+        setProfileCt(null);
     };
 
     return (
         <div>
             <h2>off campus groups 👯👯</h2>
             <br />
-            {profile ? (
+            {profileCt && profileCt.name ? (
                 <div>
-                    <img src={profile.picture} alt="user image" />
+                    <img src={profileCt.url} alt="user image" />
                     <h3>User Logged in</h3>
-                    <p>Name: {profile.name}</p>
-                    <p>Email Address: {profile.email}</p>
+                    <p>Name: {profileCt.name}</p>
+                    <p>Email Address: {profileCt.email}</p>
                     <p>fetched from google 🚀</p>
                     <br />
-  
-                    {users.find((user) => user.email === profile.email) ? (
-                        <div>
-                            <p>Name: {users.find((user) => user.email === profile.email)?.name}</p>
-                            <p>Email: {users.find((user) => user.email === profile.email)?.email}</p>
-                            <p>Bio: {users.find((user) => user.email === profile.email)?.bio}</p>
-                            <img src={users.find((user) => user.email === profile.email)?.url} width="100px"></img>
-                            <p>fetched from firebase 🔥</p>
-                        </div>
-                        ) : (
-                        <p>No user found with the specified email.</p>
-                        )
-                    }
-                    <br />
+                    <p>Name: {profileCt.name}</p>
+                    <p>Email: {profileCt.email}</p>
+                    <p>Bio: {profileCt.bio}</p>
+                    <img src={profileCt.url} width="100px" alt="firebase profile" />
+                    <p>fetched from firebase 🔥</p>
                     <br />
                     <h1>EVENTS 🗓️</h1>
-                    {events.map((event) => {
-                        return (
-                        <div>
-                            {" "}
+                    {events.map((event) => (
+                        <div key={event.id}>
                             <h3>Event: {event.name}</h3>
                             <p>Description: {event.description}</p>
                             <p>Date: {event.date.toDate().toLocaleDateString("en-US", {
@@ -114,20 +103,20 @@ function App() {
                                 day: "numeric",
                                 hour: "2-digit",
                                 minute: "2-digit",
-                                })}</p>
+                            })}</p>
                             <p>Current attendees: {event.attendees.length} / {event.maxAttendees}</p>
-                            <img src={event.pic} width="200px"></img>
+                            <img src={event.pic} width="200px" alt="event" />
                             <p>Tags: {event.tags}</p>
                             <button onClick={() => handleEventClick(event.id)}>go to event details</button>
                         </div>
-                        );
-                    })}
+                    ))}
                     <button onClick={logOut}>Log out</button>
                 </div>
             ) : (
-                <button onClick={login}>Sign in with Google 🚀 </button>
+                <button onClick={() => login()}>Sign in with Google 🚀</button>
             )}
         </div>
     );
+    
 }
 export default App;
