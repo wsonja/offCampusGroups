@@ -1,18 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-import {db} from "./firebase-config";
-import {collection, getDocs} from 'firebase/firestore'
+import {getDocs} from 'firebase/firestore'
+import { useAppContext } from './AppContext';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 function App() {
+    const { usersCollectionRef, eventsCollectionRef, profileCt, setProfileCt } = useAppContext();
     const [ user, setUser ] = useState([]);
     const [ profile, setProfile ] = useState([]);
-    const usersCollectionRef = collection(db, "users")
-    const eventsCollectionRef = collection(db, "events")
     const [users, setUsers] = useState<any[]>([]);
     const [events, setEvents] = useState<any[]>([]);
+    const navigate = useNavigate();
+
+    const handleEventClick = (eventId: string) => {
+        // Navigate to EventDetails with eventId as a URL parameter
+        navigate(`/events/${eventId}`);
+    };
 
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
@@ -48,8 +55,17 @@ function App() {
                 setEvents(data.docs.map((doc)=>({...doc.data(), id: doc.id})));
             };
             getEvents();
+            
+            if (profile){
+                setProfileCt({
+                    name: profile.name,
+                    email: profile.email,
+                    bio: users.find((user) => user.email === profile.email)?.bio, // Set bio and url to empty strings if they come from another source
+                    url: profile.picture // Assuming profile picture URL is stored here
+                }); // Set the profile in the context
+            }
         },
-        [ user ]
+        [user, usersCollectionRef, eventsCollectionRef, profile, setProfileCt]
     );
 
     // log out function to log the user out of google and set the profile array to null
@@ -102,6 +118,7 @@ function App() {
                             <p>Current attendees: {event.attendees.length} / {event.maxAttendees}</p>
                             <img src={event.pic} width="200px"></img>
                             <p>Tags: {event.tags}</p>
+                            <button onClick={() => handleEventClick(event.id)}>go to event details</button>
                         </div>
                         );
                     })}
