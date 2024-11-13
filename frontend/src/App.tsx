@@ -113,7 +113,12 @@ function App() {
 
     return (
         <div className="center">
-            <h2>off campus groups 👯👯</h2>
+            <div className="header">
+                <img src="/src/assets/logo.png" alt="Off Campus Groups Logo" className="logo" />
+                <h2>off campus groups &nbsp;👯👯</h2>
+            </div>
+
+            {/* <h2>off campus groups </h2> */}
             {profileCt && profileCt.name ? (
                 <div style={{ paddingBottom: '20px' }}>
                     <div style={{ position: "relative" }}> {/* Make this div relative for dropdown positioning */}
@@ -134,9 +139,8 @@ function App() {
                     <h3>User Logged in</h3>
                     <p>Name: {profileCt.name}</p>
                     <p>Email Address: {profileCt.email}</p>
-                    <p>fetched from google 🚀</p>
-                    <br /> */}
-                    <p>welcome, {profileCt.name} 🔥</p>
+                    <p>fetched from google 🚀</p> */}
+                    <p style={{paddingTop: "1px"}}>welcome, {profileCt.name} 🔥</p>
                     {/* <p>Email: {profileCt.email}</p>
                     <p>Bio: {profileCt.bio}</p>
                     <img src={profileCt.url} width="100px" alt="firebase profile" />
@@ -176,8 +180,11 @@ function App() {
 
                 </div>
             ) : (
-                <button onClick={() => login()} className="google-button"> <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" className="google-icon" /> Sign in with Google 🚀</button>
-
+                <div className="centerlogin">
+                    <img src="/src/assets/biggerlogo.png" alt="Profile" className="biglogo" />
+                    <br/>
+                    <button onClick={() => login()} className="google-button"> <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" className="google-icon" /> Sign in with Google 🚀</button>
+                </div>
             )}
         </div>
     );
