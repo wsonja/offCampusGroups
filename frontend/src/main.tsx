@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import EventDetails from './eventDetails';
 import { AppProvider } from './AppContext';
+import ProfilePage from "./ProfilePage";
 
 ReactDOM.render(
     <GoogleOAuthProvider clientId="209207942162-cjgr4d0qf0depkdevdmi4f3m084ft4sa.apps.googleusercontent.com">
@@ -14,6 +15,7 @@ ReactDOM.render(
                 <Routes>
                     <Route path="/" element={<App />} />
                     <Route path="/events/:eventId" element={<EventDetails />} />
+                    <Route path="/profile" element={<ProfilePage />} />
                 </Routes>
             </BrowserRouter>
           </AppProvider>    

@@ -6,6 +6,9 @@ import {getDocs} from 'firebase/firestore'
 import { useAppContext } from './AppContext';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './App.css';
+import Icon from './components/icon'
+import { Link } from 'react-router-dom';
 
 
 function App() {
@@ -74,26 +77,73 @@ function App() {
         setProfileCt(null);
     };
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+        console.log("hihi")
+    };
+
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+    const handleTagClick = (tag: string) => {
+        setSelectedTags((prev) => {
+            // Check if the tag is already in the array
+            if (prev.includes(tag)) {
+              // If it is, remove it (deselect)
+              return prev.filter((t) => t !== tag);
+            } else {
+              // Otherwise, add it to the array
+              console.log(selectedTags + " " + tag)
+              return [...prev, tag];
+            }
+          });
+        
+        console.log(selectedTags);
+      };
+    
+      // Filter events to only show those with at least one selected tag
+      const filteredEvents = selectedTags.length
+        ? events.filter((event) =>
+            event.tags.some((tag:string) => selectedTags.includes(tag))
+          )
+        : events;
+    
+
+
     return (
-        <div>
+        <div className="center">
             <h2>off campus groups 👯👯</h2>
-            <br />
             {profileCt && profileCt.name ? (
-                <div>
-                    <img src={profileCt.url} alt="user image" />
+                <div style={{ paddingBottom: '20px' }}>
+                    <div style={{ position: "relative" }}> {/* Make this div relative for dropdown positioning */}
+                        <button onClick={toggleMenu} className="account-icon-button">
+                            <img src={profileCt.url} alt="Profile" className="profile-image" />
+                        </button>
+                        {isOpen && (
+                            <div className="dropdown-menu">
+                            <ul>
+                                <li><Link to="/profile" onClick={() => setIsOpen(false)}>My Profile</Link></li>
+                                <li>Settings</li>
+                                <li onClick={logOut}>Log out</li>
+                            </ul>
+                            </div>
+                        )}
+                    </div>
+                    {/* <img src={profileCt.url} alt="user image" />
                     <h3>User Logged in</h3>
                     <p>Name: {profileCt.name}</p>
                     <p>Email Address: {profileCt.email}</p>
                     <p>fetched from google 🚀</p>
-                    <br />
-                    <p>Name: {profileCt.name}</p>
-                    <p>Email: {profileCt.email}</p>
+                    <br /> */}
+                    <p>welcome, {profileCt.name} 🔥</p>
+                    {/* <p>Email: {profileCt.email}</p>
                     <p>Bio: {profileCt.bio}</p>
                     <img src={profileCt.url} width="100px" alt="firebase profile" />
                     <p>fetched from firebase 🔥</p>
-                    <br />
+                    <br /> */}
                     <h1>EVENTS 🗓️</h1>
-                    {events.map((event) => (
+                    {filteredEvents.map((event) => (
                         <div key={event.id}>
                             <h3>Event: {event.name}</h3>
                             <p>Description: {event.description}</p>
@@ -106,14 +156,28 @@ function App() {
                             })}</p>
                             <p>Current attendees: {event.attendees.length} / {event.maxAttendees}</p>
                             <img src={event.pic} width="200px" alt="event" />
-                            <p>Tags: {event.tags}</p>
-                            <button onClick={() => handleEventClick(event.id)}>go to event details</button>
+                            <div className="tags-container">
+                                {event.tags.map((tag) => (
+                                <div
+                                    key={tag}
+                                    className={`tag ${selectedTags.includes(tag) ? 'selected' : ''}`}
+                                    onClick={() => handleTagClick(tag)}
+                                >
+                                    {tag}
+                                </div>
+                                ))}
+                            </div>
+                            {selectedTags[event.id] && (
+                                <p>Selected Tag for {event.title}: {selectedTags[event.id]}</p>
+                            )}
+                            <button onClick={() => handleEventClick(event.id)} className="event-details-button">go to event details</button>
                         </div>
                     ))}
-                    <button onClick={logOut}>Log out</button>
+
                 </div>
             ) : (
-                <button onClick={() => login()}>Sign in with Google 🚀</button>
+                <button onClick={() => login()} className="google-button"> <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" className="google-icon" /> Sign in with Google 🚀</button>
+
             )}
         </div>
     );

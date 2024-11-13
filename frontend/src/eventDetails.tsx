@@ -3,7 +3,7 @@ import { useAppContext } from './AppContext';
 import { getDoc, doc, Timestamp, updateDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import "./App.css"
 
 interface Event {
   id: string;
@@ -65,7 +65,7 @@ const EventDetails: React.FC = () => {
     return (
       <div>
         <h1>Event Details</h1>
-        <h3>{profileCt ? (profileCt.name + " logged in") : ("no user logged in")}</h3>
+        {/* <h3>{profileCt ? (profileCt.name + " logged in") : ("no user logged in")}</h3> */}
         <h3>Event: {event.name}</h3>
         <p>Description: {event.description}</p>
         <p>
@@ -88,7 +88,7 @@ const EventDetails: React.FC = () => {
         <button onClick={updateAttendees}>join event!</button>
       ): <h4>already joined event!</h4>}
 
-        <button onClick={() => navigate('/')}>Back to Main Page</button>
+        <button className="event-details-button" onClick={() => navigate('/')}>back to main page</button>
 
       </div>
     );

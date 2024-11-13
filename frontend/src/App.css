@@ -1,21 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap');
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
 @keyframes logo-spin {
@@ -33,10 +22,152 @@
   }
 }
 
-.card {
-  padding: 2em;
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #555;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.read-the-docs {
-  color: #888;
+.google-button:hover {
+  background-color: #f7f7f7;
+}
+
+.google-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 8px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  position: relative;
+}
+
+
+
+body, html{
+  height: 100%;
+  font-family: 'Figtree', sans-serif;
+}
+
+.account-icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 40px; /* Set width and height for the button */
+  height: 40px;
+  border-radius: 50%; /* Make it circular */
+  overflow: hidden; /* Ensure image is contained within the circle */
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cover the entire button area */
+}
+
+.account-menu-container {
+  position: relative; /* Set this so dropdown is positioned relative to the button */
+}
+
+.dropdown-menu {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  z-index: 1000;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+
+
+.event {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tags-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+  justify-content: center;
+}
+
+.tag {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.tag:hover {
+  background-color: #e0e0e0;
+}
+
+.selected {
+  background-color: #cce5ff;
+  color: #0056b3;
+}
+
+
+.event-details-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #0056b3; /* Modern blue color */
+  border: none;
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for a modern look */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+  margin: 5px 0 15px 0; /* Space between tags and button */
+}
+
+.event-details-button:hover {
+  background-color: #004494; /* Darker blue on hover */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.event-details-button:active {
+  transform: translateY(0); /* Reset transform on click */
 }
