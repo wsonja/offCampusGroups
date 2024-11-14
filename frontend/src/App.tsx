@@ -129,7 +129,6 @@ function App() {
                             <div className="dropdown-menu">
                             <ul>
                                 <li><Link to="/profile" onClick={() => setIsOpen(false)}>My Profile</Link></li>
-                                <li>Settings</li>
                                 <li onClick={logOut}>Log out</li>
                             </ul>
                             </div>
