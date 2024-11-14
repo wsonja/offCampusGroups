@@ -84,9 +84,9 @@ const EventDetails: React.FC = () => {
         <img src={event.pic} width="200px" style={{marginBottom: "15px"}} alt="Event"/>
         <br />
 
-        {!isUserAttending ? (
+        {!isUserAttending && event.attendees.length < event.maxAttendees? (
         <button onClick={updateAttendees} className="event-details-button">join event!</button>
-      ): <h4>already joined event!</h4>}
+      ): isUserAttending? (<h4>already joined event!</h4>) : <h4>event full sorry 😭</h4>}
 
         <button className="event-details-button" onClick={() => navigate('/')}>back to main page</button>
 
