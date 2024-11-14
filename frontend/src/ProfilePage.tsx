@@ -46,6 +46,7 @@ function ProfilePage() {
       <p>Email: {profileCt.email}</p>
       <p>Bio: {profileCt.bio}</p>
       <img src={profileCt.url} width="100px" alt="Profile" />
+      <p>ID:{profileCt.id}</p>
       <p>Fetched from Firebase 🔥</p>
       {/* Editable bio field with modern styling */}
       <div className="input-container">
