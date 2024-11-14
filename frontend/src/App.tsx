@@ -64,7 +64,8 @@ function App() {
                 name: profile.name,
                 email: profile.email,
                 bio: users.find((user) => user.email === profile.email)?.bio || '',
-                url: profile.picture || ''
+                url: profile.picture || '',
+                id: users.find((user) => user.email === profile.email)?.id || '',
             });
         }
     }, [profile, users, setProfileCt]);

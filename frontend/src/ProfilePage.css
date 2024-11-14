@@ -16,3 +16,52 @@
   .back-button:hover {
     background-color: #004494;
   }
+
+
+  /* ProfilePage.css */
+
+.input-container {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    justify-content: center;
+
+  }
+  
+  .input-field {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    margin-right: 8px;
+  }
+  
+  .input-field:focus {
+    border-color: #0056b3;
+  }
+  
+  .save-button {
+    font-weight: bold;
+    padding: 10px 16px;
+    background-color: #0056b3;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for a modern look */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
+  }
+  
+  .save-button:hover {
+    background-color: #004494;
+  }
+  
+  .save-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

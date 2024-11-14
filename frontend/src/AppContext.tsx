@@ -7,6 +7,7 @@ interface ProfileCt {
     email: string;
     bio: string;
     url: string;
+    id: string;
 }
 
 // Define the context type
