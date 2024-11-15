@@ -144,34 +144,34 @@ function App() {
             <Navbar />
         <div className="center">
             {profileCt && profileCt.name ? (
-                <div style={{ paddingBottom: '20px',paddingTop:'5px' }}>
-                    {/* <p style={{ paddingTop: "1px" }}>welcome, {profileCt.name} 🔥</p> */}
+                <div>
                     <h1>EVENTS 🗓️</h1>
                     {filteredEvents.map((event) => (
-                        <div key={event.id}>
-                            <h3>Event: {event.name}</h3>
-                            <p>Description: {event.description}</p>
-                            <p>Date: {event.date.toDate().toLocaleDateString("en-US", {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                            })}</p>
-                            <p>Current attendees: {event.attendees.length} / {event.maxAttendees}</p>
-                            <img src={event.pic} width="200px" alt="event" />
-                            <div className="tags-container">
-                                {event.tags.map((tag) => (
-                                    <div
-                                        key={tag}
-                                        className={`tag ${selectedTags.includes(tag) ? 'selected' : ''}`}
-                                        onClick={() => handleTagClick(tag)}
-                                    >
-                                        {tag}
-                                    </div>
-                                ))}
+                        <div key={event.id} className="home-event-card">
+                            <div className="home-event-date">
+                                <p className="home-event-month">{event.date.toDate().toLocaleString('en-US', { month: 'short' }).toUpperCase()}</p>
+                                <p className="home-event-day">{event.date.toDate().getDate()}</p>
                             </div>
-                            <button onClick={() => handleEventClick(event.id)} className="event-details-button">go to event details</button>
+                            <div className="home-event-details">
+                                <p>{event.date.toDate().toLocaleString('en-US', { weekday:'short'})} • {event.date.toDate().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
+                                <h3>{event.name}</h3>
+                                <p>{event.location}</p>
+                                
+                            </div>
+                            <div className="tags-container">
+                                    {event.tags.map((tag: string) => (
+                                        <span
+                                            key={tag}
+                                            className={`tag ${selectedTags.includes(tag) ? 'selected' : ''}`}
+                                            onClick={() => handleTagClick(tag)}
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            <button onClick={() => handleEventClick(event.id)} className="event-details-button">
+                                more details
+                            </button>
                         </div>
                     ))}
                 </div>

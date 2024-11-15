@@ -87,33 +87,6 @@ body, html{
   position: relative; /* Set this so dropdown is positioned relative to the button */
 }
 
-.dropdown-menu {
-  position: fixed;
-  top: 70px;
-  right: 20px;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 150px;
-  z-index: 1000;
-}
-
-.dropdown-menu ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.dropdown-menu li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.dropdown-menu li:hover {
-  background-color: #f0f0f0;
-}
-
 
 
 .event {
@@ -125,8 +98,8 @@ body, html{
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  margin: 15px 0;
-  justify-content: center;
+  margin: 15px;
+  width: 250px;
 }
 
 .tag {
@@ -146,6 +119,7 @@ body, html{
   background-color: #cce5ff;
   color: #0056b3;
 }
+
 
 
 .event-details-button {
@@ -207,3 +181,67 @@ h2 {
 }
 
 
+.home-events-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.home-event-card {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 0;
+}
+
+.home-event-date {
+  text-align: center;
+  margin-right: 15px;
+  width: 60px;
+}
+
+.home-event-month {
+  font-size: 14px;
+  color: #888;
+  margin:5px;
+}
+
+.home-event-day {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin:5px;
+}
+
+.home-event-details {
+  text-align: left;
+  width: 300px
+}
+
+.home-event-details h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.home-event-details p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.home-event-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 14px;
+  margin-left:50px;
+}
+
+.home-event-button:hover {
+  background-color: #0056b3;
+}

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { doc, updateDoc } from 'firebase/firestore'; // Import Firestore methods
 import { db } from './firebase-config'; // Import your Firebase configuration
 import './ProfilePage.css';
+import Navbar from './components/Navbar';
 
 function ProfilePage() {
   const { profileCt, setProfileCt } = useAppContext();
@@ -41,14 +42,21 @@ function ProfilePage() {
 
   return (
     <div>
-      <h2>Profile</h2>
-      <p>Name: {profileCt.name}</p>
-      <p>Email: {profileCt.email}</p>
-      <p>Bio: {profileCt.bio}</p>
-      <img src={profileCt.url} width="100px" alt="Profile" />
-      <p>ID:{profileCt.id}</p>
-      <p>Fetched from Firebase 🔥</p>
-      {/* Editable bio field with modern styling */}
+      <Navbar/>
+      <div className="profile-page-container" style={{justifyContent: "center",display:"flex",flexDirection:"column"}}>
+      <h2 style={{marginTop:"30px"}}>Profile</h2>
+      <div className="profile-container">
+        <img src={profileCt.url} width="100px" alt="Profile" className="pfp" />
+        <p>Name: {profileCt.name}</p>
+        <p>Email: {profileCt.email}</p>
+        <p>Bio: {profileCt.bio}</p>
+
+      </div>
+      
+      
+      {/* <p>ID:{profileCt.id}</p>
+      <p>Fetched from Firebase 🔥</p> */}
+
       <div className="input-container">
         <input
           type="text"
@@ -60,11 +68,8 @@ function ProfilePage() {
         <button onClick={handleSaveBio} disabled={isSaving} className="save-button">
           {isSaving ? 'saving...' : 'edit bio'}
         </button>
+        </div>
       </div>
-      {/* Back to Home Button */}
-      <button onClick={() => navigate('/')} className="back-button">
-        Back to Home
-      </button>
     </div>
   );
 }

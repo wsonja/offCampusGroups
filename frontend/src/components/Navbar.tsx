@@ -37,8 +37,9 @@ const Navbar: React.FC = () => {
                     {isOpen && (
                         <div className="dropdown-menu">
                             <ul>
-                                <li><Link to="/profile" onClick={() => setIsOpen(false)}>My Profile</Link></li>
-                                <li onClick={logOut}>Log out</li>
+                                <li><Link to="/" onClick={() => setIsOpen(false)} style={{color: "black", textDecoration:"none"}}>home</Link></li>
+                                <li><Link to="/profile" onClick={() => setIsOpen(false)} style={{color: "black", textDecoration:"none"}}>my profile</Link></li>
+                                <li onClick={logOut}>log out</li>
                             </ul>
                         </div>
                     )}

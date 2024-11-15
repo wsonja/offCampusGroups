@@ -112,7 +112,7 @@ const EventDetails: React.FC = () => {
             <p>
             Attendees: {event.attendees.length} / {event.maxAttendees}
             </p>
-            
+            <p style={{marginBottom: "0"}}>Organizer: {organizerProfile?.name}</p>
             <div className="organizer-profile">
             <img src={organizerProfile?.url} alt="Organizer profile" className="organizer-profile-image" />
             <div className="organizer-info">
