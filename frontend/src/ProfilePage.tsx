@@ -71,68 +71,79 @@ function ProfilePage() {
   return (
     <div>
       <Navbar/>
-      <div className="profile-page-container" style={{justifyContent: "center",display:"flex",flexDirection:"column"}}>
-      <h2 style={{marginTop:"30px"}}>Profile</h2>
-      <div className="profile-container">
-        <img src={profileCt.url} width="100px" alt="Profile" className="pfp" />
-        <p>Name: {profileCt.name}</p>
-        <p>Email: {profileCt.email}</p>
-        <p>Bio: {profileCt.bio}</p>
 
-      </div>
       
       
       {/* <p>ID:{profileCt.id}</p>
       <p>Fetched from Firebase 🔥</p> */}
 
-      <div className="input-container">
-        <input
-          type="text"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
-          placeholder="Edit your bio"
-          className="input-field"
-        />
-        <button onClick={handleSaveBio} disabled={isSaving} className="save-button">
-          {isSaving ? 'saving...' : 'edit bio'}
-        </button>
+      <div className="profile-page-layout">
+        {/* Left Column: Profile */}
+        <div className="profile-column">
+          <h2 style={{marginTop:"30px"}}>Profile</h2>
+          <div className="profile-container">
+            <img src={profileCt.url} width="100px" alt="Profile" className="pfp" />
+            <p>Name: {profileCt.name}</p>
+            <p>Email: {profileCt.email}</p>
+            <p>Bio: {profileCt.bio}</p>
+          </div>
+
+          <div className="input-container">
+            <input
+              type="text"
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              placeholder="Edit your bio"
+              className="input-field"
+            />
+            <button onClick={handleSaveBio} disabled={isSaving} className="save-button">
+              {isSaving ? 'saving...' : 'edit bio'}
+            </button>
+          </div>
+        </div>
+
+        {/* Right Column: Joined Events */}
+        <div className="events-column">
+          <div className="joined-events-container">
+            <h3>Joined Events 🗓️</h3>
+            {joinedEvents.length > 0 ? (
+              <div className="events-list">
+                {joinedEvents.map((event: Event) => (
+                  <div key={event.id} className="home-event-card">
+                    <div className="home-event-date">
+                      <p className="home-event-month">
+                        {event.date.toDate().toLocaleString('en-US', { month: 'short' }).toUpperCase()}
+                      </p>
+                      <p className="home-event-day">{event.date.toDate().getDate()}</p>
+                    </div>
+                    <div className="home-event-details">
+                      <p>
+                        {event.date.toDate().toLocaleString('en-US', { weekday: 'short' })} •{' '}
+                        {event.date.toDate().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}
+                      </p>
+                      <h3>{event.name}</h3>
+                      <p>{event.location}</p>
+                    </div>
+                    <div className="tags-container">
+                      {event.tags.map((tag: string) => (
+                        <span key={tag} className="tag">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <button onClick={() => navigate(`/event/${event.id}`)} className="event-details-button">
+                      more details
+                    </button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p>You haven't joined any events yet ☹️</p>
+            )}
+          </div>
         </div>
       </div>
-
-      <div className="joined-events-container" style={{ marginTop: '20px' }}>
-        <h3>Joined Events 🗓️</h3>
-        {joinedEvents.length > 0 ? (
-          <div className="events-list">
-            {joinedEvents.map((event : Event) => (
-              <div key={event.id} className="home-event-card">
-                <div className="home-event-date">
-                  <p className="home-event-month">{event.date.toDate().toLocaleString('en-US', { month: 'short' }).toUpperCase()}</p>
-                  <p className="home-event-day">{event.date.toDate().getDate()}</p>
-                </div>
-                <div className="home-event-details">
-                  <p>{event.date.toDate().toLocaleString('en-US', { weekday: 'short' })} • {event.date.toDate().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</p>
-                  <h3>{event.name}</h3>
-                  <p>{event.location}</p>
-                </div>
-                <div className="tags-container">
-                  {event.tags.map((tag : string) => (
-                    <span 
-                      key={tag} className="tag">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <button onClick={() => navigate(`/event/${event.id}`)} className="event-details-button">
-                  More Details
-                </button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>You haven't joined any events yet ☹️</p>
-        )}
-      </div>
-    </div>
+    </div> 
   );
 }
 

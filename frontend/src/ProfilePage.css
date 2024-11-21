@@ -1,72 +1,137 @@
+/* ProfilePage.css */
+
 @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap');
 
-  /* ProfilePage.css */
+/* Two-column layout container */
+.profile-page-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Align content to the top */
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
+/* Left column: Profile section */
+.profile-column {
+  flex: 1;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the profile container horizontally */
+  gap: 20px; /* Add spacing between profile and input-container */
+  justify-content: center; /* Center content vertically */
+  height: 80vh;
+}
+
+/* Right column: Events section */
+.events-column {
+  flex: 2;
+}
+
+/* Profile container: Center the profile info */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Horizontally center items */
+  justify-content: center; /* Vertically center items */
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid #0056b3;
+  width: fit-content;
+  text-align: center;
+  margin: 20px 0
+}
+
+.profile-container p{
+  margin:10px;
+  padding:0;
+}
+
+/* Profile picture */
+.pfp {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%; /* Make it circular */
+  object-fit: cover; /* Ensure the image fits within the circle */
+  margin-bottom: 10px; /* Add spacing below the image */
+}
+
+/* Input container: Side-by-side layout for input and button */
 .input-container {
-    display: flex;
-    align-items: center;
-    margin: 20px;
-    justify-content: center;
+  display: flex; /* Side-by-side layout */
+  align-items: center; /* Align input and button vertically */
+  gap: 10px; /* Add spacing between input and button */
+}
 
-  }
-  
-  .input-field {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    outline: none;
-    transition: border-color 0.3s;
-    margin-right: 8px;
-  }
-  
-  .input-field:focus {
-    border-color: #0056b3;
-  }
-  
-  .save-button {
-    font-weight: bold;
-    padding: 10px 16px;
-    background-color: #0056b3;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for a modern look */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transition */
-  }
-  
-  .save-button:hover {
-    background-color: #004494;
-  }
-  
-  .save-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  
-  .pfp {
-    width: 80px; /* Adjust the size as needed */
-    height: auto;
-    border-radius: 50%; /* Make it circular */
-    overflow: hidden; /* Ensure image is contained within the circle */
-  }
-  
-  .profile-container{
-    padding:20px;
-    border-radius:15px;
-    border:#0056b3 solid 1px;
-    width:fit-content;
-    margin:30px 0 10px 0 ;
-  }
+/* Input field */
+.input-field {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  flex-grow: 1; /* Allow input to take up available space */
+  transition: border-color 0.3s;
+  max-width: 130px;
+}
 
-  .profile-page-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh; /* Ensures it takes the full viewport height */
-  }
- 
+.input-field:focus {
+  border-color: #0056b3;
+}
+
+/* Save button */
+.save-button {
+  font-weight: bold;
+  padding: 10px 16px;
+  background-color: #0056b3;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.save-button:hover {
+  background-color: #004494;
+}
+
+.save-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Joined events container */
+.joined-events-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 20px;
+  gap: 10px;
+}
+
+.event-details-button {
+  white-space: nowrap; /* Prevent text wrapping */
+  display: inline-block; /* Ensure the button expands horizontally */
+  padding: 12px 20px;
+  background-color: #0056b3;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.event-details-button:hover {
+  background-color: #004494;
+}
+
+.event-details-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
