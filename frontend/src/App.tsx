@@ -107,18 +107,18 @@ function App() {
     }, [profile, users, setProfileCt]);
 
     // Logout function
-    const logOut = () => {
-        googleLogout();
-        setProfile(null);
-        setProfileCt(null);
-    };
+    // const logOut = () => {
+    //     googleLogout();
+    //     setProfile(null);
+    //     setProfileCt(null);
+    // };
 
-    const [isOpen, setIsOpen] = useState(false);
+    // const [isOpen, setIsOpen] = useState(false);
 
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
-        console.log("Menu toggled");
-    };
+    // const toggleMenu = () => {
+    //     setIsOpen(!isOpen);
+    //     console.log("Menu toggled");
+    // };
 
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
