@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
-import { googleLogout, TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { getDocs, setDoc, doc} from 'firebase/firestore';
 import { db } from './firebase-config';
