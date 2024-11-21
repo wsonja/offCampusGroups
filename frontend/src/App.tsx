@@ -9,6 +9,7 @@ import { useAppContext } from './AppContext';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
 import Navbar from './components/Navbar';
+import biggerLogo from './assets/biggerlogo.png'
 
 function App() {
     const { usersCollectionRef, eventsCollectionRef, profileCt, setProfileCt } = useAppContext();
@@ -175,7 +176,7 @@ function App() {
                 </div>
             ) : (
                 <div className="centerlogin">
-                    <img src="/src/assets/biggerlogo.png" alt="Profile" className="biglogo" />
+                    <img src={biggerLogo} alt="Profile" className="biglogo" />
                     <br />
                     <button onClick={() => login()} className="google-button">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" className="google-icon" />

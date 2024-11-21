@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { googleLogout } from '@react-oauth/google';
 import { useAppContext } from '../AppContext';
 import './Navbar.css'; // Create a CSS file for Navbar-specific styles
+import navBarLogo from './assets/logo.png';
 
 const Navbar: React.FC = () => {
     const { profileCt, setProfileCt } = useAppContext();
@@ -23,7 +24,7 @@ const Navbar: React.FC = () => {
         <div className="navbar">
             <Link to="/" className="header-link">
                 <div className="header">
-                    <img src="/src/assets/logo.png" alt="Off Campus Groups Logo" className="logo" />
+                    <img src={navBarLogo} alt="Off Campus Groups Logo" className="logo" />
                     <h2>off campus groups &nbsp;👯👯</h2>
                 </div>
             </Link>
