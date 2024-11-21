@@ -26,13 +26,15 @@ function ProfilePage() {
                   // Find the user by email to get their joined events
                   const userJoinedEventsQuery = query(
                       eventsCollectionRef,
-                      where("joinedUsers", "array-contains", profileCt.email) 
+                      where("attendees", "array-contains", profileCt.id) 
                   );
                   const querySnapshot = await getDocs(userJoinedEventsQuery);
                   const joinedEvents = querySnapshot.docs.map((doc) => ({
                       ...doc.data(),
                       id: doc.id,
                   }));
+                  console.log(profileCt.id)
+                  console.log("Events with attendee:", joinedEvents);
                   setJoinedEvents(joinedEvents); // Set only the events the user has joined
               } catch (error) {
                   console.error("Error fetching joined events:", error);
