@@ -1,20 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { googleLogout, TokenResponse, useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-import { getDocs, addDoc, setDoc, doc, query, where } from 'firebase/firestore';
+import { getDocs, setDoc, doc} from 'firebase/firestore';
 import { db } from './firebase-config';
 import { useAppContext } from './AppContext';
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './App.css';
-import Icon from './components/icon';
-import { Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 
 function App() {
     const { usersCollectionRef, eventsCollectionRef, profileCt, setProfileCt } = useAppContext();
-    const [user, setUser] = useState<any[]>([]);
+    const [user, setUser] = useState<Omit<TokenResponse, "error" | "error_description" | "error_uri"> | null>(null);
     const [profile, setProfile] = useState<any | null>(null);
     const [users, setUsers] = useState<any[]>([]);
     const [events, setEvents] = useState<any[]>([]);
