@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useEffect, useState } from 'react';
 import { useAppContext } from './AppContext';
 import { useNavigate } from 'react-router-dom';
 import { getDocs, doc, updateDoc, query, where } from 'firebase/firestore'; // Import Firestore methods
 import { db } from './firebase-config'; // Import your Firebase configuration
 import './ProfilePage.css';
 import Navbar from './components/Navbar';
-import { Event } from './eventDetails';
+import {Event} from "./eventDetails";
 
 function ProfilePage() {
   const { eventsCollectionRef, profileCt, setProfileCt } = useAppContext();

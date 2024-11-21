@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from './AppContext';
 import { getDoc, doc, Timestamp, updateDoc } from 'firebase/firestore';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import "./App.css";
 import "./eventDetails.css";
 import Navbar from './components/Navbar';
 
-interface Event {
+export interface Event {
   id: string;
   name: string;
   description: string;
@@ -14,8 +14,9 @@ interface Event {
   attendees: string[];
   maxAttendees: number;
   pic: string;
-  tags: string;
+  tags: string[];
   organizer: string;
+  location: string;
 }
 
 interface OrganizerProfile {
@@ -31,7 +32,6 @@ const EventDetails: React.FC = () => {
   const { eventsCollectionRef, usersCollectionRef, profileCt } = useAppContext();
   const [event, setEvent] = useState<Event | null>(null);
   const [organizerProfile, setOrganizerProfile] = useState<OrganizerProfile | null>(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch the event details
