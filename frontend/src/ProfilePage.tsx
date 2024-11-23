@@ -16,6 +16,10 @@ function ProfilePage() {
   const [isSaving, setIsSaving] = useState(false);
   const [joinedEvents, setJoinedEvents] = useState<any[]>([]);
 
+  const handleEventClick = (eventId: string) => {
+    navigate(`/events/${eventId}`);
+  };
+
   if (!profileCt) return <p>Loading profile...</p>;
     
     // Function to display the user's joined events
@@ -131,8 +135,8 @@ function ProfilePage() {
                         </span>
                       ))}
                     </div>
-                    <button onClick={() => navigate(`/event/${event.id}`)} className="event-details-button">
-                      more details
+                    <button onClick={() => handleEventClick(event.id)} className="event-details-button">
+                                more details
                     </button>
                   </div>
                 ))}
