@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
-import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { getDocs, setDoc, doc} from 'firebase/firestore';
 import { db } from './firebase-config';
@@ -13,7 +13,11 @@ import Navbar from './components/Navbar';
 
 function App() {
     const { usersCollectionRef, eventsCollectionRef, profileCt, setProfileCt } = useAppContext();
-    const [user, setUser] = useState<Omit<TokenResponse, "error" | "error_description" | "error_uri"> | null>(null);
+    const [user, setUser] = useState(() => {
+        // Load user data from localStorage on app load
+        const savedUser = localStorage.getItem('googleUser');
+        return savedUser ? JSON.parse(savedUser) : null;
+      });
     const [profile, setProfile] = useState<any | null>(null);
     const [users, setUsers] = useState<any[]>([]);
     const [events, setEvents] = useState<any[]>([]);
@@ -24,9 +28,13 @@ function App() {
     };
 
     const login = useGoogleLogin({
-        onSuccess: (codeResponse) => setUser(codeResponse),
+        onSuccess: (codeResponse) => {
+          // Save user to state and localStorage
+          setUser(codeResponse);
+          localStorage.setItem('googleUser', JSON.stringify(codeResponse));
+        },
         onError: (error) => console.log('Login Failed:', error),
-    });
+      });
 
     // Fetch Google profile data
     useEffect(() => {
