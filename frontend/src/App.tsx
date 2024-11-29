@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
-import { getDocs, setDoc, doc} from 'firebase/firestore';
+import { getDocs, setDoc, doc, addDoc} from 'firebase/firestore';
 import { db } from './firebase-config';
 import { useAppContext } from './AppContext';
 import { useNavigate } from 'react-router-dom';
@@ -22,16 +22,57 @@ function App() {
     const [users, setUsers] = useState<any[]>([]);
     const [events, setEvents] = useState<any[]>([]);
     const navigate = useNavigate();
-    // const [isPopupOpen, setIsPopupOpen] = useState(false);
-    // const [eventData, setEventData] = useState({
-    //     name: '',
-    //     date: '',
-    //     description: '',
-    //     location: '',
-    //     maxAttendees: '',
-    //     pic: '',
-    //     tags: '',
-    // });
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [eventData, setEventData] = useState({
+        name: '',
+        date: '',
+        description: '',
+        location: '',
+        maxAttendees: '',
+        pic: '',
+        tags: '',
+    });
+
+    // Handle form input changes
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setEventData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    // Save the event to Firebase
+    const handleSaveEvent = async () => {
+        try {
+        // Convert tags to an array
+        const tagsArray = eventData.tags.split(',').map((tag) => tag.trim());
+
+        // Add event to Firestore
+        await addDoc(eventsCollectionRef, {
+            ...eventData,
+            tags: tagsArray,
+            attendees: [profileCt?.id], // Start with only organizer
+            organizer: profileCt?.id, // Use current user's ID as the organizer
+            date: new Date(eventData.date), // Convert date to a Date object
+        });
+
+        alert('Event added successfully!');
+        setEventData({
+            name: '',
+            date: '',
+            description: '',
+            location: '',
+            maxAttendees: '',
+            pic: '',
+            tags: '',
+        }); // Reset the form
+        setIsPopupOpen(false); // Close the popup
+        } catch (error) {
+        console.error('Error adding event:', error);
+        alert('Failed to add event. Please try again.');
+        }
+    };
 
     const handleEventClick = (eventId: string) => {
         navigate(`/events/${eventId}`);
@@ -163,7 +204,193 @@ function App() {
         <div className="center">
             {profileCt && profileCt.name ? (
                 <div>
-                    <h1>EVENTS 🗓️</h1>
+                    <div className='eventAdd'>
+                        <h1>EVENTS 🗓️</h1>
+                        {/* Button to open the popup */}
+                        <button
+                            onClick={() => setIsPopupOpen(true)}
+                            className='addEventButton'
+                        >
+                            add event
+                        </button>
+
+                        {/* Popup Form */}
+                        {isPopupOpen && (
+                            <div
+                            style={{
+                                position: 'fixed',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                            >
+                            <div
+                                style={{
+                                backgroundColor: '#fff',
+                                padding: '20px',
+       
+                                borderRadius: '10px',
+                                width: '400px',
+                                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+                                }}
+                            >
+                                <h2>add event</h2>
+                                <form>
+                                <div style={{ marginBottom: '10px', marginTop: '15px' }}>
+                                    <label>Event Name:</label>
+                                    <input
+                                    type="text"
+                                    name="name"
+                                    value={eventData.name}
+                                    onChange={handleInputChange}
+                                    style={{
+                                        width: '90%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        borderRadius: '4px',
+                                        border: '1px solid #ccc',
+                                    }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: '10px' }}>
+                                    <label>Date:</label>
+                                    <input
+                                    type="datetime-local"
+                                    name="date"
+                                    value={eventData.date}
+                                    onChange={handleInputChange}
+                                    style={{
+                                        width: '90%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        borderRadius: '4px',
+                                        border: '1px solid #ccc',
+                                    }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: '10px' }}>
+                                    <label>Description:</label>
+                                    <input
+                                    type="text"
+                                    name="description"
+                                    value={eventData.description}
+                                    onChange={handleInputChange}
+                                    style={{
+                                        width: '90%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        borderRadius: '4px',
+                                        border: '1px solid #ccc',
+                                    }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: '10px' }}>
+                                    <label>Location:</label>
+                                    <input
+                                    type="text"
+                                    name="location"
+                                    value={eventData.location}
+                                    onChange={handleInputChange}
+                                    style={{
+                                        width: '90%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        borderRadius: '4px',
+                                        border: '1px solid #ccc',
+                                    }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: '10px' }}>
+                                    <label>Max Attendees:</label>
+                                    <input
+                                    type="number"
+                                    name="maxAttendees"
+                                    value={eventData.maxAttendees}
+                                    onChange={handleInputChange}
+                                    style={{
+                                        width: '90%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        borderRadius: '4px',
+                                        border: '1px solid #ccc',
+                                    }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: '10px' }}>
+                                    <label>Event Picture URL:</label>
+                                    <input
+                                    type="text"
+                                    name="pic"
+                                    value={eventData.pic}
+                                    onChange={handleInputChange}
+                                    style={{
+                                        width: '90%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        borderRadius: '4px',
+                                        border: '1px solid #ccc',
+                                    }}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: '20px' }}>
+                                    <label>Tags (comma-separated):</label>
+                                    <input
+                                    type="text"
+                                    name="tags"
+                                    value={eventData.tags}
+                                    onChange={handleInputChange}
+                                    style={{
+                                        width: '90%',
+                                        padding: '8px',
+                                        marginTop: '5px',
+                                        borderRadius: '4px',
+                                        border: '1px solid #ccc',
+                                    }}
+                                    />
+                                </div>
+                                </form>
+                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                                <button
+                                    onClick={() => setIsPopupOpen(false)}
+                                    style={{
+                                    padding: '10px 15px',
+                                    backgroundColor: '#ccc',
+                                    color: '#000',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                    fontWeight: 'bold',
+                                    }}
+                                >
+                                    cancel
+                                </button>
+                                <button
+                                    onClick={handleSaveEvent}
+                                    style={{
+                                    padding: '10px 15px',
+                                    backgroundColor: '#0056b3',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                    
+                                    textAlign: 'center',
+                                    margin: 0,
+                                    fontWeight: 'bold',
+                                    }}
+                                >
+                                    save
+                                </button>
+                                </div>
+                            </div>
+                            </div>
+                        )}
+                    </div>
                     {filteredEvents.map((event) => (
                         <div key={event.id} className="home-event-card">
                             <div className="home-event-date">
@@ -192,6 +419,10 @@ function App() {
                             </button>
                         </div>
                     ))}
+
+                    
+
+
                 </div>
             ) : (
                 <div className="centerlogin">

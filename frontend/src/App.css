@@ -120,7 +120,34 @@ body, html{
   color: #0056b3;
 }
 
+.eventAdd{
+  display: flex;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  align-items: center;
+}
 
+
+.addEventButton{
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #0056b3;
+  border: #0056b3 2px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  justify-content: right;
+  align-items: right;
+  margin-left: 492px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.addEventButton:hover{
+  background-color: #0056b3; /* Darker blue on hover */
+  color: #fff;
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
 
 .event-details-button {
   padding: 12px 20px;
