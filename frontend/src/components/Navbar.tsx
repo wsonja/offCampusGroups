@@ -14,9 +14,11 @@ const Navbar: React.FC = () => {
     };
 
     const logOut = () => {
-        googleLogout();
-        setProfileCt(null);
-        navigate('/'); // Redirect to home page after logging out
+        googleLogout(); // Logs out the user from Google
+        setProfileCt(null); // Clear user profile state
+        localStorage.removeItem('googleUser'); // Clear localStorage data
+        navigate('/'); // Redirect to the home page
+        window.location.reload(); // Forcefully reload the page
     };
 
     return (

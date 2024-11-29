@@ -22,6 +22,16 @@ function App() {
     const [users, setUsers] = useState<any[]>([]);
     const [events, setEvents] = useState<any[]>([]);
     const navigate = useNavigate();
+    // const [isPopupOpen, setIsPopupOpen] = useState(false);
+    // const [eventData, setEventData] = useState({
+    //     name: '',
+    //     date: '',
+    //     description: '',
+    //     location: '',
+    //     maxAttendees: '',
+    //     pic: '',
+    //     tags: '',
+    // });
 
     const handleEventClick = (eventId: string) => {
         navigate(`/events/${eventId}`);
