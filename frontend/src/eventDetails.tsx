@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from './AppContext';
-import { getDoc, doc, Timestamp, updateDoc } from 'firebase/firestore';
-import { useParams } from 'react-router-dom';
+import { getDoc, doc, Timestamp, updateDoc, arrayRemove, deleteDoc } from 'firebase/firestore';
+import { useParams, useNavigate } from 'react-router-dom';
 import "./App.css";
 import "./eventDetails.css";
 import Navbar from './components/Navbar';
@@ -32,6 +32,7 @@ const EventDetails: React.FC = () => {
   const { eventsCollectionRef, usersCollectionRef, profileCt } = useAppContext();
   const [event, setEvent] = useState<Event | null>(null);
   const [organizerProfile, setOrganizerProfile] = useState<OrganizerProfile | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch the event details
@@ -82,6 +83,41 @@ const EventDetails: React.FC = () => {
     }
   };
 
+
+  const removeAttendee = async () => {
+    if (event && eventId) {
+      const eventDoc = doc(eventsCollectionRef, eventId);
+      await updateDoc(eventDoc, {
+        attendees: arrayRemove(profileCt!.id), // Removes the attendee from the attendees array
+      });
+      // Update the local state to reflect the change
+      setEvent((prevEvent) =>
+        prevEvent ? { ...prevEvent, attendees: prevEvent.attendees?.filter((a) => a !== profileCt?.id),} : prevEvent
+      );
+    }
+  };
+
+  const deleteEvent = async () => {
+    try {
+      // Confirm before deleting
+      const confirmed = window.confirm('Are you sure you want to delete this event?');
+      if (!confirmed) return;
+
+      // Reference the event document in Firebase
+      const eventDocRef = doc(eventsCollectionRef, eventId);
+
+      // Delete the document
+      await deleteDoc(eventDocRef);
+
+      console.log(`Event ${eventId} deleted successfully.`);
+
+      // Navigate back to the events list after deletion
+      navigate('/');
+    } catch (error) {
+      console.error('Error deleting event:', error);
+    }
+  }
+
   if (!event) {
     return <p>Loading event details...</p>;
   }
@@ -125,11 +161,14 @@ const EventDetails: React.FC = () => {
                 <p style={{margin: "5px 0"}}>{organizerProfile?.bio}</p>
             </div>
             </div>
-
-            {!isUserAttending && event.attendees.length < event.maxAttendees ? (
+            
+            {profileCt?.email == organizerProfile?.email?(
+              <button onClick={deleteEvent} className='join'>delete event!</button>
+            ):!isUserAttending && event.attendees.length < event.maxAttendees ? (
             <button onClick={updateAttendees} className="join">join event!</button>
             ) : isUserAttending ? (
-            <h4>already joined event!</h4>
+            // <h4>already joined event!</h4>
+            <button onClick={removeAttendee} className="join">remove me from event!</button>
             ) : (
             <h4>event full sorry 😭</h4>
             )}

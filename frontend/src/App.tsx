@@ -55,6 +55,7 @@ function App() {
 
         const getEvents = async () => {
             const data = await getDocs(eventsCollectionRef);
+            console.log(data)
             setEvents(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
         };
         getEvents();
