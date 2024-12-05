@@ -1,70 +1,100 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .header {
-    display: flex;
-    align-items: center;
+.link-container,
+.welcome-message,
+.account-container {
+  width: 33.3333%;
+  margin: 0;
+}
+
+.welcome-message {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
+
+.link-container {
+  padding-left: 2em;
+}
+@media (max-width: 1024px) {
+  .welcome-message {
+    display: none;
   }
-  
-  .logo {
-    width: 50px; /* Adjust logo size as needed */
-    height: 50px;
-    margin: 15px 10px 15px 15px;
+
+  .link-container {
+    width: 90%;
   }
-  
-  .account-icon-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-  
-  .profile-image {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .dropdown-menu {
-    position: absolute;
-    top: 10px;
-    right: 0;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 150px;
-    z-index: 1000;
-  }
-  
   .account-container {
-    position: relative; /* This ensures dropdown is positioned relative to this container */
+    width: 10%;
   }
-  
-  .dropdown-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .dropdown-menu li {
-    padding: 10px;
-    cursor: pointer;
-  }
-  
+}
 
-  .dropdown-menu li:hover {
-    background-color: #f0f0f0;
-  }
+.header {
+  display: flex;
+  align-items: center;
+}
 
-  .welcome-message{
-    margin: 10px;
-  }
+.logo {
+  width: 50px; /* Adjust logo size as needed */
+  height: 50px;
+}
 
-  h2{
-    color: #000000;
-  }
+.account-icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
 
-  h2:hover{
-    color: #004494;
-  }
-  
+.profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  z-index: 1000;
+}
+
+.account-container {
+  position: relative; /* This ensures dropdown is positioned relative to this container */
+  display: flex;
+  justify-content: end;
+  padding-right: 2em;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f0f0f0;
+}
+
+h2 {
+  color: #000000;
+}
+
+h2:hover {
+  color: #004494;
+}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap");
 
 #root {
   margin: 0 auto;
@@ -55,11 +55,10 @@
   position: relative;
 }
 
-
-
-body, html{
+body,
+html {
   height: 100%;
-  font-family: 'Figtree', sans-serif;
+  font-family: "Figtree", sans-serif;
 }
 
 .account-icon-button {
@@ -86,8 +85,6 @@ body, html{
 .account-menu-container {
   position: relative; /* Set this so dropdown is positioned relative to the button */
 }
-
-
 
 .event {
   margin-bottom: 20px;
@@ -120,7 +117,7 @@ body, html{
   color: #0056b3;
 }
 
-.eventAdd{
+.eventAdd {
   display: flex;
   max-width: 800px;
   margin: 0 auto;
@@ -128,8 +125,7 @@ body, html{
   align-items: center;
 }
 
-
-.addEventButton{
+.addEventButton {
   padding: 10px 20px;
   background-color: #fff;
   color: #0056b3;
@@ -143,7 +139,7 @@ body, html{
   font-size: 16px;
 }
 
-.addEventButton:hover{
+.addEventButton:hover {
   background-color: #0056b3; /* Darker blue on hover */
   color: #fff;
   transform: translateY(-2px); /* Slight lift effect on hover */
@@ -191,6 +187,12 @@ h2 {
   margin: 0;
 }
 
+h4 {
+  font-size: 2em;
+  margin-left: 19px;
+  text-align: left;
+}
+
 .centerlogin {
   display: flex;
   justify-content: center;
@@ -199,14 +201,13 @@ h2 {
   flex-direction: column; /* Stack items vertically */
 }
 
-.biglogo{
+.biglogo {
   width: 300px;
   display: inline-block;
   border: solid black 1px;
   border-radius: 20px;
   margin-bottom: 10px;
 }
-
 
 .home-events-container {
   max-width: 800px;
@@ -230,19 +231,19 @@ h2 {
 .home-event-month {
   font-size: 14px;
   color: #888;
-  margin:5px;
+  margin: 5px;
 }
 
 .home-event-day {
   font-size: 24px;
   font-weight: bold;
   color: #333;
-  margin:5px;
+  margin: 5px;
 }
 
 .home-event-details {
   text-align: left;
-  width: 300px
+  width: 300px;
 }
 
 .home-event-details h3 {
@@ -266,9 +267,100 @@ h2 {
   cursor: pointer;
   text-transform: uppercase;
   font-size: 14px;
-  margin-left:50px;
+  margin-left: 50px;
 }
 
 .home-event-button:hover {
   background-color: #0056b3;
+}
+
+/* General responsive adjustments */
+@media (max-width: 768px) {
+  #root {
+    padding: 0.5rem;
+  }
+
+  .google-button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+
+  .center {
+    padding: 10px;
+  }
+
+  .event-header-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .account-icon-button {
+    width: 36px;
+    height: 36px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .eventAdd h1 {
+    font-size: 20px;
+  }
+
+  .addEventButton {
+    font-size: 14px;
+    margin-left: auto; /* Align to the right naturally */
+    margin-right: 10px;
+    padding: 8px 12px;
+  }
+
+  .tags-container {
+    width: 100%; /* Adjust to container's width */
+    justify-content: center; /* Center tags */
+  }
+
+  .home-event-card {
+    flex-direction: column;
+    align-items: flex-start; /* Align text to the left */
+  }
+
+  .home-event-date {
+    margin-right: 0;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+
+  .home-event-details {
+    width: 100%; /* Full width for smaller screens */
+  }
+
+  .event-details-button {
+    margin-left: 0;
+    margin-top: 10px; /* Add space for stacking */
+    width: 100%; /* Full-width button */
+  }
+}
+
+/* Adjustments for smaller phones */
+@media (max-width: 480px) {
+  .google-button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .addEventButton {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .home-event-date .home-event-day {
+    font-size: 20px;
+  }
+
+  .home-event-details h3 {
+    font-size: 14px;
+  }
+
+  .event-details-button {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
 }
