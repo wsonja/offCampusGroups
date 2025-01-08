@@ -107,7 +107,7 @@
   width: 90%;
 }
 
-.model-content image, img{
+.model-content image, .model-content img{
   margin-bottom: 10px;
 }
 
