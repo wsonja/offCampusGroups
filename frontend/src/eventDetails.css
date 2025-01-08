@@ -48,7 +48,7 @@
   .event-poster {
     width: 100%; /* Adjust to fit the container */
     max-width: 300px;
-    min-height: 450px;
+    max-height: 450px;
     height: auto;
     border-radius: 8px; /* Optional: rounded corners */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
