@@ -2,7 +2,7 @@
 .organizer-profile {
     display: flex;
     align-items: center;
-    margin: 20px 0;
+    margin: 20px 0 0 0;
   }
   
   .organizer-profile-image {
@@ -15,7 +15,7 @@
   
   .organizer-info{
     text-align: left;
-    margin:10px 0;
+    margin:10px 0 ;
   }
   
   .organizer-info h4 {
@@ -58,7 +58,7 @@
     display: flex;
     flex-direction: column;
     text-align: left;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
   }
 
 
@@ -80,3 +80,61 @@
     margin: 5px 0; /* Space between tags and button */
     width: 130px;
   }
+
+
+  /* Popup Modal Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  position: relative;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.model-content image, img{
+  margin-bottom: 10px;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.attendee-profile-pic {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  margin: 0px 0 40px 0;
+  transition: transform 0.2s;
+}
+
+.attendee-profile-pic:hover {
+  transform: scale(1.1);
+}
+
+
+.attendees-row {
+  margin: 0 0 10px 0;
+}

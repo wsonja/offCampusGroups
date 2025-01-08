@@ -214,7 +214,7 @@ function App() {
             {profileCt && profileCt.name ? (
                 <div>
                     <div className='eventAdd'>
-                        <h1>EVENTS 🗓️</h1>
+                        <h1>EVENTS</h1>
                         {/* Button to open the popup */}
                         <button
                             onClick={() => setIsPopupOpen(true)}
@@ -435,7 +435,7 @@ function App() {
                 
                     {/* Past Events */}
                     <div className="events-list" style={{ paddingBottom: '50px' }}>
-                        <h4>PAST EVENTS ❌</h4>
+                        <h4>PAST EVENTS</h4>
                         {pastEvents.map((event) => (
                             <div key={event.id} className="home-event-card">
                                 <div className="home-event-date">
@@ -473,7 +473,7 @@ function App() {
                     <br />
                     <button onClick={() => login()} className="google-button">
                         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google icon" className="google-icon" />
-                        Sign in with Google 🚀
+                        Sign in with Google 
                     </button>
                 </div>
             )}

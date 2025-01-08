@@ -31,13 +31,13 @@ const Navbar: React.FC = () => {
               alt="Off Campus Groups Logo"
               className="logo"
             />
-            <h2>off campus groups &nbsp;👯👯</h2>
+            <h2>off campus groups</h2>
           </div>
         </Link>
       </div>
       {profileCt && (
         <>
-          <p className="welcome-message">welcome, {profileCt.name} 🔥</p>
+          <p className="welcome-message">welcome, {profileCt.name}</p>
           <div className="account-container">
             <button onClick={toggleMenu} className="account-icon-button">
               <img

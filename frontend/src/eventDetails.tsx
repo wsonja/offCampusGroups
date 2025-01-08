@@ -28,14 +28,32 @@ interface OrganizerProfile {
 }
 
 const EventDetails: React.FC = () => {
-  const { eventId } = useParams<{ eventId: string }>(); // Get eventId from URL
+  const { eventId } = useParams<{ eventId: string }>(); 
   const { eventsCollectionRef, usersCollectionRef, profileCt } = useAppContext();
   const [event, setEvent] = useState<Event | null>(null);
   const [organizerProfile, setOrganizerProfile] = useState<OrganizerProfile | null>(null);
+  const [attendeesProfiles, setAttendeesProfiles] = useState<OrganizerProfile[]>([]);
+  const [selectedProfile, setSelectedProfile] = useState<OrganizerProfile | null>(null); // For the modal popup
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const navigate = useNavigate();
 
+  const fetchAttendeesProfiles = async (attendees: string[]) => {
+    try {
+      const profiles: OrganizerProfile[] = [];
+      for (const attendeeId of attendees) {
+        const userDoc = doc(usersCollectionRef, attendeeId);
+        const docSnap = await getDoc(userDoc);
+        if (docSnap.exists()) {
+          profiles.push({ ...docSnap.data(), id: docSnap.id } as OrganizerProfile);
+        }
+      }
+      setAttendeesProfiles(profiles);
+    } catch (error) {
+      console.error("Error fetching attendees:", error);
+    }
+  };
+
   useEffect(() => {
-    // Fetch the event details
     const fetchEvent = async () => {
       if (eventId) {
         const eventDoc = doc(eventsCollectionRef, eventId);
@@ -43,23 +61,19 @@ const EventDetails: React.FC = () => {
         if (docSnap.exists()) {
           const eventData = { ...docSnap.data(), id: docSnap.id } as Event;
           setEvent(eventData);
-
-          // Fetch the organizer's profile once the event is loaded
           fetchOrganizerProfile(eventData.organizer);
+          fetchAttendeesProfiles(eventData.attendees);
         } else {
           console.log("No such document!");
         }
       }
     };
 
-    // Fetch the organizer's profile from usersCollectionRef
     const fetchOrganizerProfile = async (organizerId: string) => {
       const organizerDoc = doc(usersCollectionRef, organizerId);
       const docSnap = await getDoc(organizerDoc);
       if (docSnap.exists()) {
         setOrganizerProfile({ ...docSnap.data(), id: docSnap.id } as OrganizerProfile);
-      } else {
-        console.log("Organizer profile not found");
       }
     };
 
@@ -69,86 +83,62 @@ const EventDetails: React.FC = () => {
   const updateAttendees = async () => {
     if (event && eventId) {
       const eventDoc = doc(eventsCollectionRef, eventId);
-
-      // Add the new attendee to the list of attendees
       const updatedAttendees = [...event.attendees, profileCt!.id];
-
-      // Update the event document with the new attendees list
       await updateDoc(eventDoc, { attendees: updatedAttendees });
-
-      // Update the local state to reflect the change
-      setEvent((prevEvent) =>
-        prevEvent ? { ...prevEvent, attendees: updatedAttendees } : prevEvent
-      );
+      setEvent({ ...event, attendees: updatedAttendees });
+      fetchAttendeesProfiles(updatedAttendees);
     }
   };
-
 
   const removeAttendee = async () => {
     if (event && eventId) {
       const eventDoc = doc(eventsCollectionRef, eventId);
       await updateDoc(eventDoc, {
-        attendees: arrayRemove(profileCt!.id), // Removes the attendee from the attendees array
+        attendees: arrayRemove(profileCt!.id),
       });
-      // Update the local state to reflect the change
-      setEvent((prevEvent) =>
-        prevEvent ? { ...prevEvent, attendees: prevEvent.attendees?.filter((a) => a !== profileCt?.id),} : prevEvent
-      );
+      const updatedAttendees = event.attendees.filter(a => a !== profileCt?.id);
+      setEvent({ ...event, attendees: updatedAttendees });
+      fetchAttendeesProfiles(updatedAttendees);
     }
   };
 
   const deleteEvent = async () => {
-    try {
-      // Confirm before deleting
-      const confirmed = window.confirm('Are you sure you want to delete this event?');
-      if (!confirmed) return;
-
-      // Reference the event document in Firebase
-      const eventDocRef = doc(eventsCollectionRef, eventId);
-
-      // Delete the document
+    if (window.confirm('Are you sure you want to delete this event?')) {
+      const eventDocRef = doc(eventsCollectionRef, eventId!);
       await deleteDoc(eventDocRef);
-
-      console.log(`Event ${eventId} deleted successfully.`);
-
-      // Navigate back to the events list after deletion
       navigate('/');
-    } catch (error) {
-      console.error('Error deleting event:', error);
     }
-  }
+  };
 
-  if (!event) {
-    return <p>Loading event details...</p>;
-  }
+  const openProfileModal = (profile: OrganizerProfile) => {
+    setSelectedProfile(profile);
+    setShowProfileModal(true);
+  };
+
+  const closeProfileModal = () => {
+    setSelectedProfile(null);
+    setShowProfileModal(false);
+  };
+
+  if (!event) return <p>Loading event details...</p>;
 
   const isUserAttending = profileCt && event.attendees.includes(profileCt!.id);
 
   return (
     <div>
-        <>
-        <Navbar/>
+      <Navbar />
       <div className="event-details-container">
         <div className="poster-container">
-            <img src={event.pic} alt="Event poster" className="event-poster" />
+          <img src={event.pic} alt="Event poster" className="event-poster" />
         </div>
         <div className="details-container">
-            <h1>Event: {event.name}</h1>
-            <p>Description: {event.description}</p>
-            <p>
-            Date:{' '}
-            {event.date.toDate().toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-            })}
-            </p>
-            <p>
-            Attendees: {event.attendees.length} / {event.maxAttendees}
-            </p>
-            <p style={{marginBottom: "0"}}>Organizer: {organizerProfile?.name}</p>
+          <h1>Event: {event.name}</h1>
+          <p>Description: {event.description}</p>
+          <p>
+            Date: {event.date.toDate().toLocaleString()}
+          </p>
+          <p>Attendees: {event.attendees.length} / {event.maxAttendees}</p>
+          <p style={{marginBottom: "0"}}>Organizer: {organizerProfile?.name}</p>
             <div className="organizer-profile">
             <img src={organizerProfile?.url} alt="Organizer profile" className="organizer-profile-image" />
             <div className="organizer-info">
@@ -158,23 +148,54 @@ const EventDetails: React.FC = () => {
                     {organizerProfile?.email}
                 </a>
                 </p>
-                <p style={{margin: "5px 0"}}>{organizerProfile?.bio}</p>
             </div>
             </div>
-            
-            {profileCt?.email == organizerProfile?.email?(
-              <button onClick={deleteEvent} className='join'>delete event!</button>
-            ):!isUserAttending && event.attendees.length < event.maxAttendees ? (
-            <button onClick={updateAttendees} className="join">join event!</button>
-            ) : isUserAttending ? (
-            // <h4>already joined event!</h4>
-            <button onClick={removeAttendee} className="join">remove me from event!</button>
-            ) : (
-            <h4>event full sorry 😭</h4>
-            )}
+          
+          {/* Attendees Row */}
+          <h3 style={{marginBottom: "10px"}}>Attendees:</h3>
+          <div className="attendees-row">
+            {attendeesProfiles.map((attendee) => (
+              <img
+                key={attendee.id}
+                src={attendee.url}
+                alt={attendee.name}
+                className="attendee-profile-pic"
+                onClick={() => openProfileModal(attendee)}
+                style={{ cursor: 'pointer', borderRadius: '50%', width: '60px', margin: '5px' }}
+              />
+            ))}
+          </div>
+
+          {/* Centered Popup Modal */}
+          {showProfileModal && selectedProfile && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <button className="close-button" onClick={closeProfileModal}>X</button>
+                <img
+                  src={selectedProfile.url}
+                  alt={selectedProfile.name}
+                  className="modal-profile-pic"
+                />
+                <h2>{selectedProfile.name}</h2>
+                <p>Email: <a href={`mailto:${selectedProfile.email}`}>{selectedProfile.email}</a></p>
+                <p>Bio: {selectedProfile.bio}</p>
+              </div>
+            </div>
+          )}
+
+          {profileCt?.email === organizerProfile?.email ? (
+            <button onClick={deleteEvent} className='join'>Delete Event</button>
+          ) : !isUserAttending && event.attendees.length < event.maxAttendees ? (
+            <button onClick={updateAttendees} className="join">Join Event!</button>
+          ) : isUserAttending ? (
+            <button onClick={removeAttendee} className="join">Remove Me from Event!</button>
+          ) : (
+            <h4>Event is full.</h4>
+          )}
         </div>
-        </div>
-      </>
+      </div>
+
+      
     </div>
   );
 };
